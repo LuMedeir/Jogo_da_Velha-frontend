@@ -1,7 +1,7 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from '../components/HomePage.vue';  // Importando HomePage
-import GameBoard from '../components/Game.vue';  // Importando GameBoard
+import GameBoard from '../components/GameBoard.vue';  // Importando GameBoard
 import GameHistory from '../components/GameHistory.vue';  // Importando GameHistory
 
 const routes = [
