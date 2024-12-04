@@ -11,9 +11,10 @@ const routes = [
     component: HomePage
   },
   {
-    path: '/game',
+    path: '/game/:id',
     name: 'GameBoard',  // Rota para GameBoard
-    component: GameBoard
+    component: GameBoard,
+    props: true // Permite passar o `id` como prop para o componente
   },
   {
     path: '/history',

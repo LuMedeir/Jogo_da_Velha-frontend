@@ -1,11 +1,21 @@
 <script setup>
-  // Importação do useRouter para navegação
   import { useRouter } from 'vue-router';
+  import axios from 'axios';
 
-  // Definição da função startGame
   const router = useRouter();
-  const startGame = () => {
-    router.push({ name: 'GameBoard' });
+  const startGame = async () => {
+    try {
+    // Enviar requisição para criar um novo jogo no backend
+    const response = await axios.post('http://localhost:3000/games', {});
+
+    // Supondo que o backend retorne o id do novo jogo
+    const gameId = response.data.id;
+
+    // Redireciona para a página do novo jogo usando o id
+    router.push({ name: 'GameBoard', params: { id: gameId } });
+    } catch (error) {
+      console.error("Erro ao criar o jogo:", error);
+    }
   };
 
   const showTable = () => {
