@@ -7,31 +7,45 @@
       <table class="game-board">
         <tbody>
           <tr>
-            <td @click="makeMove(0)" class="cell"></td>
-            <td @click="makeMove(1)" class="cell"></td>
-            <td @click="makeMove(2)" class="cell"></td>
+            <td @click="setPlay(0)" class="cell"></td>
+            <td @click="setPlay(1)" class="cell"></td>
+            <td @click="setPlay(2)" class="cell"></td>
           </tr>
           <tr>
-            <td @click="makeMove(3)" class="cell"></td>
-            <td @click="makeMove(4)" class="cell"></td>
-            <td @click="makeMove(5)" class="cell"></td>
+            <td @click="setPlay(3)" class="cell"></td>
+            <td @click="setPlay(4)" class="cell"></td>
+            <td @click="setPlay(5)" class="cell"></td>
           </tr>
           <tr>
-            <td @click="makeMove(6)" class="cell"></td>
-            <td @click="makeMove(7)" class="cell"></td>
-            <td @click="makeMove(8)" class="cell"></td>
+            <td @click="setPlay(6)" class="cell"></td>
+            <td @click="setPlay(7)" class="cell"></td>
+            <td @click="setPlay(8)" class="cell"></td>
           </tr>
         </tbody>
       </table>
-      <p id="status"></p>
-        <button class="buttons game-reset" @click="resetGame()">Reiniciar</button>
+      <p id="status">
+        <span v-if="winner === 'draw' "> Empate </span>
+        <span v-else-if="winner !== ''">O jogador {{ winner }} venceu!</span>
+        <span v-else>Vez do jogador {{ player === 0 ? 'X' : 'O' }}</span>
+      </p>
+      <button class="buttons game-reset" @click="resetGame()">Reiniciar</button>
     </div>
   </div>
 </template>
 
 <script setup>
   import axiosInstance from '../plugins/axios';
+  import { ref } from 'vue';
   import { defineProps } from 'vue';
+  import { onMounted } from 'vue';
+
+  onMounted(() => {
+    resetGame();
+    checkWinner();
+  });
+
+  let player = ref(0);
+  let winner = ref("");
 
   // Recebe a prop `id` da rota
   const props = defineProps({
@@ -41,37 +55,58 @@
     }
   });
 
+
   const resetGame = async () => {
     try {
-    const response = await axiosInstance.patch(`http://localhost:3000/games/${props.id}/reset`, {});
-      console.log('Dados apagados com sucesso:', response.data);
-      const cell = document.getElementsByClassName('cell');
-      cell[0].textContent = '';
-      cell[1].textContent = '';
-      cell[2].textContent = '';
-      cell[3].textContent = '';
-      cell[4].textContent = '';
-      cell[5].textContent = '';
-      cell[6].textContent = '';
-      cell[7].textContent = '';
+      const response = await axiosInstance.patch(`http://localhost:3000/games/${props.id}/reset`, {});
+      console.log('Jogo reiniciado com sucesso:', response.data);
+
+      const cells = document.getElementsByClassName('cell');
+      for (let i = 0; i < cells.length; i++) {
+        cells[i].textContent = '';
+      }
+      winner.value = '';
+      player.value = 0;
     } catch (error) {
-      console.error('Erro ao apagar dados', error);
+      console.error('Erro ao reiniciar o jogo:', error);
     }
   }
 
+  function setPlay(index){
+    makeMove(index);
+    setTimeout(checkWinner, 25);
+  }
+
   function makeMove(index) {
-    if (sendData(index)) {
-      const cell = document.getElementsByClassName('cell')[index];
+    
+    const cell = document.getElementsByClassName('cell')[index];
+    if (cell.textContent == "" && !winner.value && sendData(index)) {
       console.log(`Você clicou na célula ${index}`);
-      cell.textContent = 'O';
+      if (player.value == 0) {
+        cell.textContent = 'X';
+        player.value = 1;
+      } else {
+        cell.textContent = 'O';
+        player.value = 0;
+      }
       setCellColor(cell);
+    }
+  }
+
+  const checkWinner = async () => {
+    try {
+      const response = await axiosInstance.get(`http://localhost:3000/games/${props.id}`);
+      winner.value = response.data.winner;
+      
+    } catch (error) {
+      console.error('Erro ao verificar vencedor', error);
     }
   }
 
   const sendData = async (index) => {
   try {
     const response = await axiosInstance.patch(`http://localhost:3000/games/${props.id}/move`, {
-      player: "X",
+      player: player.value == 0 ? 'X' : 'O',
       position: index
     });
     console.log('Dados enviados com sucesso:', response.data);
@@ -157,6 +192,12 @@
 
 .game-reset {
   background-color: #440e6b;
+}
+
+#status {
+  font-size: 30px;
+  font-weight: 600;
+  color: #440e6b;
 }
 
 </style>
