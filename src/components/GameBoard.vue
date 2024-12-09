@@ -1,7 +1,5 @@
 <template>
-  <router-link to="/">
-    <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável"/>
-  </router-link>
+  <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
   <div class="game-div">
     <div class="game-container">
       <table class="game-board">
@@ -38,6 +36,9 @@
   import { ref } from 'vue';
   import { defineProps } from 'vue';
   import { onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 
   onMounted(() => {
     resetGame();
@@ -72,15 +73,28 @@
     }
   }
 
-  function setPlay(index){
-    makeMove(index);
-    setTimeout(checkWinner, 25);
+  async function comeback() {
+    try {
+      const response = await axiosInstance.get(`http://localhost:3000/games/${props.id}`, {});
+      if (response.data.winner === "") {
+        await axiosInstance.delete(`http://localhost:3000/games/${props.id}`, {});
+      }
+    } catch (error) {
+      console.error('Erro ao voltar para a página inicial:', error);
+    }
+    router.push({ name: 'HomePage' });
   }
 
-  function makeMove(index) {
-    
+  async function setPlay(index){
+    await makeMove(index);
+    await checkWinner();
+  }
+
+  async function makeMove(index) {
     const cell = document.getElementsByClassName('cell')[index];
-    if (cell.textContent == "" && !winner.value && sendData(index)) {
+    const isValid = await sendData(index);
+    
+    if (cell.textContent == "" && !winner.value && isValid) {
       console.log(`Você clicou na célula ${index}`);
       if (player.value == 0) {
         cell.textContent = 'X';
@@ -110,8 +124,10 @@
       position: index
     });
     console.log('Dados enviados com sucesso:', response.data);
+    return true;
   } catch (error) {
     console.error('Erro ao enviar dados', error);
+    return false;
   }
 };
 
@@ -127,6 +143,11 @@
 
 
 <style scoped>
+
+body {
+  background-color: #1a022b;
+}
+
 .game-div {
   display: flex;
   justify-content: center;
