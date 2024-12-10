@@ -67,14 +67,17 @@
 </script>
 
 <template>
-  <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
+  <img src="../assets/img/background.png" alt="" class="home-background">
+  <img class="button-back" src="../assets/img/button.png" alt="Imagem Clicável" @click="comeback()"/>
       <div class="history-container">
-        <table class="history-table">
+        <div class="table-wrapper">
+        <table class="history-table ">
           <thead>
             <tr class="table-row">
               <th>ID</th>
               <th>Vencedor</th>
               <th>Data</th>
+              <th>Revanche</th>
               <th>Estado do Jogo</th>
               <th>Deletar partida</th>
             </tr>
@@ -85,6 +88,9 @@
               <td class="table-winner details-info"> {{  game.winner !== "draw" ? game.winner : "Empate" }}</td>
               <td class="details-info">{{ formatDate(game.created_at) }}</td>
               <td>
+                <button class="revanche-button" @click="revanche(game.id)">Iniciar Revanche</button>
+              </td>
+              <td>
                 <img class="game-state-button" src="../assets/img/showGame.png" alt="Imagem Clicável" @click="showGameState(game.id)"/>
               </td>
               <td>
@@ -93,13 +99,15 @@
             </tr>
           </tbody>
         </table>
-        <div v-if="gameState !== null" class="container-game-state">
-          <p class="close" @click="closeGameState()">X</p>
-          <div class="board-game-row" v-for="(row, rowIndex) in [0, 1, 2]" :key="rowIndex">
-              <div class="board-game-cell"
-                  v-for="(cell, cellIndex) in gameState.slice(rowIndex * 3, rowIndex * 3 + 3)" :key="cellIndex">{{ cell }}
-              </div>
-          </div>
+    </div>
+    <div v-if="gameState !== null" class="container-game-state">
+      <div class="blackscreen"></div>
+      <p class="close" @click="closeGameState()">X</p>
+      <div class="board-game-row" v-for="(row, rowIndex) in [0, 1, 2]" :key="rowIndex">
+        <div class="board-game-cell"
+            v-for="(cell, cellIndex) in gameState.slice(rowIndex * 3, rowIndex * 3 + 3)" :key="cellIndex">{{ cell }}
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -111,39 +119,50 @@
     justify-content: space-around;
     align-items: center;
     width: 230px;
-  }
+    color: #440e6b;
+  } 
 
   th {
+    border-bottom: 2px solid #38b71b;
     font-size: 28px;
   }
 
-  img {
-    cursor: pointer;
+  .home-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
   }
 
   .history-container {
+    margin-top: 3%;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     justify-content: center;
     width: 100vw;
     height: 80vh;
-  
   }
 
-  .history-table {
+  .table-wrapper {
     width: 80%;
-    margin-top: 100px;
-    /* background-color: #ffffffbd; */
-    background-color: #1a022b;
+    max-height: 60vh; 
+    overflow-y: auto;
+    margin-top: 80px;
+    background-color: #ffffff;
     border-radius: 55px;
     padding: 30px;
     border-spacing: 0 30px;
-    display: table;
+    border: 2px solid #38b71b;
+  } 
+
+  .history-table {
+    width: 100%;
     border-collapse: separate;
     box-sizing: border-box;
     text-indent: initial;
-    border: 2px solid #38b71b;
   }
 
   .table-row {
@@ -158,18 +177,34 @@
   }
 
   .details-info {
-    color: rgba(255, 255, 255, 0.411);
+    color: rgba(0, 0, 0, 0.562);
   }
 
   .game-state-button {
     border-radius: 10px;
     transition: ease 0.3s;
     filter: brightness(0.1);
+    cursor: pointer;
   }
 
   .game-state-button:hover{
     background-color: rgba(109, 109, 104, 0.61);
     filter: brightness(1)
+  }
+
+  .revanche-button {
+    height: 40px;
+    border-radius: 20px;
+    font-size: 70%;
+    background-color:#38b71b;
+    color:#ffffff;
+    transition: ease 0.3s;
+    padding: 5%;
+  }
+
+  .revanche-button:hover {
+    background-color:#440e6b;
+    color: white;
   }
 
   .delete-button{
@@ -178,6 +213,7 @@
     transition: ease 0.3s;
     padding: 5%;
     filter: brightness(0.1);
+    cursor: pointer;
   }
 
   .delete-button:hover {
@@ -194,13 +230,17 @@
 }
 
 .container-game-state {
-  color: #4e4e4ece;
+  z-index: 100;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  gap: 0;
+  position: fixed;
+  width: 480px;
+  height: 450px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.925);
+  margin-top: 8%;
 }
 
 .board-game-row {
@@ -230,7 +270,21 @@
   height: 30px;
   text-align: center;
   line-height: 30px;
-  margin-right: 10px;
+  margin-left: -380px;
+  margin-top: -30px;
+}
+
+.blackscreen {
+    z-index: 99;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
 }
 
 </style>    

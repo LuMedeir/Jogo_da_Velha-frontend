@@ -21,8 +21,10 @@
 </script>
 
 <template>
+  
   <div class="home-div">
-    <img class="home-game-img" src="../assets/img/game1.png"/>
+    <img src="../assets/img/home-background.png" alt="" class="home-background">
+    <img class="home-game-img" src="../assets/img/game.png"/>
     <div class="home-buttons">
       <button @click="startGame" class="buttons home-play">Iniciar Jogo</button>
       <button @click="showTable" class="buttons home-table">Ver Historico</button>
@@ -31,20 +33,28 @@
 </template>
 
 <style scoped>
+  .home-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+
   .home-div {
-    background-image: url('../assets/img/home-background.png');
     background-size: cover;
     background-position: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    height: 100%;
     width: 100vw;
-    overflow-x: hidden
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
 
   .home-game-img {
-    /* width: 700px; */
     margin-top: 340px;
     margin-bottom: 40px;
   }

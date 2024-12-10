@@ -1,6 +1,6 @@
 <template>
-  <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
   <div class="game-div">
+    <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
     <div class="game-container">
       <table class="game-board">
         <tbody>
@@ -93,8 +93,8 @@
   async function makeMove(index) {
     const cell = document.getElementsByClassName('cell')[index];
     const isValid = await sendData(index);
-    
-    if (cell.textContent == "" && !winner.value && isValid) {
+
+    if (cell.textContent == "" && winner.value == "" && isValid) {
       console.log(`Você clicou na célula ${index}`);
       if (player.value == 0) {
         cell.textContent = 'X';
@@ -144,15 +144,17 @@
 
 <style scoped>
 
-body {
-  background-color: #1a022b;
-}
-
 .game-div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  background-color: #1a022b;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 75px;
 }
 
 .button-back {
@@ -160,7 +162,8 @@ body {
   height: 50px;
   cursor: pointer;
   position: absolute;
-  margin-left: 18%;
+  margin-left: -70%;
+  margin-top: -40%;
 }
 
 .game-container {
