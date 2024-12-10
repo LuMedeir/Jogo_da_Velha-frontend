@@ -78,8 +78,16 @@
     background-color: #8e68e6;
   }
 
+  .home-play:hover {
+    background-color: #6b3f9e;
+  }
+
   .home-table {
     background-color: #007d2a;
+  }
+
+  .home-table:hover {
+    background-color: #005b1f;
   }
 
 </style>

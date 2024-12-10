@@ -1,4 +1,5 @@
 <template>
+  <img src="../assets/img/background.png" alt="" class="background">
   <div class="game-div">
     <img class="button-back" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
     <div class="game-container">
@@ -26,7 +27,10 @@
         <span v-else-if="winner !== ''">O jogador {{ winner }} venceu!</span>
         <span v-else>Vez do jogador {{ player === 0 ? 'X' : 'O' }}</span>
       </p>
-      <button class="buttons game-reset" @click="resetGame()">Reiniciar</button>
+      <div class="buttons">
+        <button class="game-reset" @click="resetGame()">Reiniciar</button>
+        <button class="new-game" @click="newGame()">Novo Jogo</button>
+      </div>
     </div>
   </div>
 </template>
@@ -48,7 +52,6 @@
   let player = ref(0);
   let winner = ref("");
 
-  // Recebe a prop `id` da rota
   const props = defineProps({
     id: {
       type: String,
@@ -56,6 +59,19 @@
     }
   });
 
+  const newGame = async () => {
+
+    try {
+      const response = await axiosInstance.post('http://localhost:3000/games', {});
+      const gameId = response.data.id;
+      if (winner.value === "") {
+        await axiosInstance.delete(`http://localhost:3000/games/${props.id}`, {});
+      }
+      router.push({ name: 'GameBoard', params: { id: gameId } });
+    } catch (error) {
+      console.error('Erro ao criar novo jogo:', error);
+    }
+  }
 
   const resetGame = async () => {
     try {
@@ -144,14 +160,19 @@
 
 <style scoped>
 
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+  }
+
 .game-div {
   position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
   width: 100%;
   height: 100%;
-  background-color: #1a022b;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +184,7 @@
   cursor: pointer;
   position: absolute;
   margin-left: -70%;
-  margin-top: -40%;
+  margin-top: -35%;
 }
 
 .game-container {
@@ -206,7 +227,14 @@
 }
 
 .buttons {
-  font-size: 25px;
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+}
+
+.game-reset {
+  background-color: #440e6b;
+  font-size: 23px;
   font-weight: 600;
   color: rgb(255, 255, 255);
   width: 180px;
@@ -214,8 +242,22 @@
   border-radius: 20px;
 }
 
-.game-reset {
-  background-color: #440e6b;
+.game-reset:hover {
+  background-color: #8e68e6;
+}
+
+.new-game {
+  background-color: #38b71b;
+  font-size: 23px;
+  font-weight: 600;
+  color: rgb(255, 255, 255);
+  width: 180px;
+  height: 55px;
+  border-radius: 20px;
+}
+
+.new-game:hover {
+  background-color: #2f8a0f;
 }
 
 #status {

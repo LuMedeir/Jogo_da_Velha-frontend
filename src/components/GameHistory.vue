@@ -12,12 +12,11 @@
     router.push({ name: 'HomePage' });
   }
 
-
   // Buscar o histórico de jogos ao montar o componente
   const fetchGameHistory = async () => {
     try {
       const response = await axiosInstance.get('http://localhost:3000/games');
-      games.value = response.data; // Atualiza a lista de jogos
+      games.value = response.data.sort((a, b) => b.id - a.id); // Atualiza a lista de jogos do maior id para o menor
     } catch (error) {
       console.error('Erro ao buscar histórico de jogos:', error);
     }
@@ -61,13 +60,22 @@
     return `${day}/${month}/${year}`;
   };
 
+  function rematch(id) {
+    router.push({ 
+      name: 'GameBoard', 
+      params: { 
+        id
+       } 
+    });
+  }
+
   onMounted(() => {
     fetchGameHistory(); // Carregar o histórico ao montar o componente
   });
 </script>
 
 <template>
-  <img src="../assets/img/background.png" alt="" class="home-background">
+  <img src="../assets/img/background.png" alt="" class="background">
   <img class="button-back" src="../assets/img/button.png" alt="Imagem Clicável" @click="comeback()"/>
       <div class="history-container">
         <div class="table-wrapper">
@@ -86,9 +94,9 @@
             <tr class="table-row" v-for="game in games" :key="game.id">
               <td>{{ game.id }}</td>
               <td class="table-winner details-info"> {{  game.winner !== "draw" ? game.winner : "Empate" }}</td>
-              <td class="details-info">{{ formatDate(game.created_at) }}</td>
+              <td class="details-info">{{ formatDate(game.updated_at) }}</td>
               <td>
-                <button class="revanche-button" @click="revanche(game.id)">Iniciar Revanche</button>
+                <button class="revanche-button" @click="rematch(game.id)">Iniciar Revanche</button>
               </td>
               <td>
                 <img class="game-state-button" src="../assets/img/showGame.png" alt="Imagem Clicável" @click="showGameState(game.id)"/>
@@ -100,12 +108,14 @@
           </tbody>
         </table>
     </div>
-    <div v-if="gameState !== null" class="container-game-state">
+    <div v-if="gameState !== null">
       <div class="blackscreen"></div>
-      <p class="close" @click="closeGameState()">X</p>
-      <div class="board-game-row" v-for="(row, rowIndex) in [0, 1, 2]" :key="rowIndex">
-        <div class="board-game-cell"
-            v-for="(cell, cellIndex) in gameState.slice(rowIndex * 3, rowIndex * 3 + 3)" :key="cellIndex">{{ cell }}
+      <div class="container-game-state">
+        <p class="close" @click="closeGameState()">X</p>
+        <div class="board-game-row" v-for="(row, rowIndex) in [0, 1, 2]" :key="rowIndex">
+          <div class="board-game-cell"
+              v-for="(cell, cellIndex) in gameState.slice(rowIndex * 3, rowIndex * 3 + 3)" :key="cellIndex">{{ cell }}
+          </div>
         </div>
       </div>
     </div>
@@ -127,7 +137,7 @@
     font-size: 28px;
   }
 
-  .home-background {
+  .background {
     position: absolute;
     top: 0;
     left: 0;
@@ -230,12 +240,13 @@
 }
 
 .container-game-state {
-  z-index: 100;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: fixed;
+  left: 38%;
   width: 480px;
   height: 450px;
   border-radius: 10px;
@@ -275,14 +286,14 @@
 }
 
 .blackscreen {
-    z-index: 99;
+    z-index: 9;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.6);
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.5s;
     pointer-events: none;
 }
