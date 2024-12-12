@@ -57,6 +57,7 @@
   .home-game-img {
     margin-top: 340px;
     margin-bottom: 40px;
+    pointer-events: none;
   }
 
   .home-buttons {
