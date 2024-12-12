@@ -1,25 +1,45 @@
-# api-frontend
+# Jogo da Velha - Frontend
 
-## Project setup
-```
-npm install
-```
+Este é o frontend da aplicação "Jogo da Velha", desenvolvida com Vue.js. Ele é responsável por fornecer uma interface interativa para os usuários jogarem e visualizarem o histórico de partidas, consumindo os dados fornecidos por um backend em [Ruby on Rails](https://github.com/LuMedeir/Jogo_da_Velha-backend).
 
-### Compiles and hot-reloads for development
-```
-npm run serve -p 8080
-```
+## Funcionalidades
+ - Jogar partidas de Jogo da Velha.
+ - Visualizar o estado de cada partida concluída.
+ - Excluir partidas do histórico.
+ - Exibir informações do vencedor ou empate.
+ - Visualizar a data em que aquela partida foi jogada.
+ - Obter uma revanche de uma partida específica.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+## Pré-requisitos
+Antes de executar o frontend, certifique-se de ter o seguinte instalado:
 
-### Lints and fixes files
-```
-npm run lint
-```
+ - Node.js (versão 18.19.1 ou superior)
+ - npm
+ - O backend da aplicação, certifique-se de seguir o passo a passo do [link](https://github.com/LuMedeir/Jogo_da_Velha-backend) e ter a aplicação rodando.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
+## Como Jogar
+Como Rodar o Projeto
+
+ 1. Clone o repositório:
+   ```bash
+      git clone https://github.com/LuMedeir/Jogo_da_Velha-frontend.git
+      cd jogo-da-velha-frontend
+   ```
+2. Instale as dependências:
+  ```bash
+      npm install
+   ```
+3. Execute o projeto:
+  ```bash
+      npm run serve
+   ```
+5. Acesse o frontend: Abra o navegador e vá para [http://localhost:8080](http://localhost:8080);
+
+## Tecnologias Utilizadas
+ - Vue.js 3: Framework JavaScript para o frontend.
+  - Vue Router: Gerenciamento de rotas.
+ -Axios: Para consumo de API REST.
+ - CSS: Estilização customizada.
+
+## Imagens do Jogo: 
