@@ -43,3 +43,12 @@ Como Rodar o Projeto
  - CSS: Estilização customizada.
 
 ## Imagens do Jogo: 
+<p align="center">
+ Partida:
+ <img src="./src/assets/img/tela-do-jogo.png"><br></br>
+</p>
+
+ <p align="center">
+ Histórico de partidas:
+ <img src="./src/assets/img/tela-do-historico.png">
+</p>
