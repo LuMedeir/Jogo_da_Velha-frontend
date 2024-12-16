@@ -38,7 +38,7 @@ Como Rodar o Projeto
 
 ## Tecnologias Utilizadas
  - Vue.js 3: Framework JavaScript para o frontend.
-  - Vue Router: Gerenciamento de rotas.
+ - Vue Router: Gerenciamento de rotas.
  -Axios: Para consumo de API REST.
  - CSS: Estilização customizada.
 

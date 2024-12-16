@@ -22,73 +22,13 @@
 
 <template>
   
-  <div class="home-div">
-    <img src="../assets/img/home-background.png" alt="" class="home-background">
-    <img class="home-game-img" src="../assets/img/game.png"/>
-    <div class="home-buttons">
-      <button @click="startGame" class="buttons home-play">Iniciar Jogo</button>
-      <button @click="showTable" class="buttons home-table">Ver Historico</button>
+  <div class="bg-cover bg-center flex flex-col items-center w-screen h-screen overflow-x-hidden overflow-y-hidden">
+    <img class="absolute top-0 left-0 -z-10 w-full h-full" src="../assets/img/home-background.png">
+    <img class="mt-[340px] mb-[40px] pointer-events-none" src="../assets/img/game.png"/>
+    <div class="flex flex-col gap-8">
+      <button @click="startGame" class="text-2xl font-semibold text-white w-64 h-14 rounded-2xl bg-purple-400 hover:bg-purple-500">Iniciar Jogo</button>
+      <button @click="showTable" class="text-2xl font-semibold text-white w-64 h-14 rounded-2xl bg-green-600 hover:bg-green-900">Ver Historico</button>
     </div>
   </div>
 </template>
 
-<style scoped>
-  .home-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-  }
-
-  .home-div {
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 100vw;
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
-
-  .home-game-img {
-    margin-top: 340px;
-    margin-bottom: 40px;
-    pointer-events: none;
-  }
-
-  .home-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-
-  .buttons {
-    font-size: 25px;
-    font-weight: 600;
-    color: white;
-    width: 260px;
-    height: 60px;
-    border-radius: 20px;
-  }
-
-  .home-play {
-    background-color: #8e68e6;
-  }
-
-  .home-play:hover {
-    background-color: #6b3f9e;
-  }
-
-  .home-table {
-    background-color: #007d2a;
-  }
-
-  .home-table:hover {
-    background-color: #005b1f;
-  }
-
-</style>
