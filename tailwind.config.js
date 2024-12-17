@@ -8,5 +8,14 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  theme: {
+    extend: {
+      colors: {
+        'white-opacity': '#ffffffcc',
+        'gray-hover': '#ddd',
+        'green': '#38b71b',
+      },
+    }
+  }
 }
 
