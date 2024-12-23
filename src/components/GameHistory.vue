@@ -75,25 +75,25 @@
 </script>
 
 <template>
-  <img src="../assets/img/background.png" alt="" class="background">
-  <img class="button-back" src="../assets/img/button.png" alt="Imagem Clicável" @click="comeback()"/>
-      <div class="history-container">
-        <div class="table-wrapper">
-        <table class="history-table ">
+  <img class="absolute top-0 left-0 -z-10 w-full h-full" src="../assets/img/background.png">
+  <img class="absolute w-14 h-14 ml-16 top-24 cursor-pointer" src="../assets/img/button.png" alt="Imagem Clicável" @click="comeback()"/>
+    <div class="flex mt-96 justify-center items-center w-screen h-14">
+        <div class="w-4/5 max-h-[60vh] overflow-y-auto mt-20 bg-white rounded-[55px] p-8 border-2 border-green-500">
+          <table class="w-full border-separate box-border indent-0">
           <thead>
-            <tr class="table-row">
-              <th>ID</th>
-              <th>Vencedor</th>
-              <th>Data</th>
-              <th>Revanche</th>
-              <th>Estado do Jogo</th>
-              <th>Deletar partida</th>
+            <tr class="flex justify-around font-semibold text-2xl">
+              <th class="flex justify-around items-center w-56 text-purple-950">ID</th>
+              <th class="flex justify-around items-center w-56 text-purple-950">Vencedor</th>
+              <th class="flex justify-around items-center w-56 text-purple-950">Data</th>
+              <th class="flex justify-around items-center w-56 text-purple-950">Revanche</th>
+              <th class="flex justify-around items-center w-56 text-purple-950">Estado do Jogo</th>
+              <th class="flex justify-around items-center w-56 text-purple-950">Deletar partida</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="table-row" v-for="game in games" :key="game.id">
+            <tr class="flex justify-around font-semibold text-2xl" v-for="game in games" :key="game.id">
               <td>{{ game.id }}</td>
-              <td class="table-winner details-info"> {{  game.winner !== "draw" ? game.winner : "Empate" }}</td>
+              <td class="text-center text-green"> {{  game.winner !== "draw" ? game.winner : "Empate" }}</td>
               <td class="details-info">{{ formatDate(game.updated_at) }}</td>
               <td>
                 <button class="revanche-button" @click="rematch(game.id)">Iniciar Revanche</button>
@@ -135,44 +135,6 @@
   th {
     border-bottom: 2px solid #38b71b;
     font-size: 28px;
-  }
-
-  .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-  }
-
-  .history-container {
-    margin-top: 3%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100vw;
-    height: 80vh;
-  }
-
-  .table-wrapper {
-    width: 80%;
-    max-height: 60vh; 
-    overflow-y: auto;
-    margin-top: 80px;
-    background-color: #ffffff;
-    border-radius: 55px;
-    padding: 30px;
-    border-spacing: 0 30px;
-    border: 2px solid #38b71b;
-  } 
-
-  .history-table {
-    width: 100%;
-    border-collapse: separate;
-    box-sizing: border-box;
-    text-indent: initial;
   }
 
   .table-row {
@@ -218,7 +180,7 @@
   }
 
   .delete-button{
-    height: 40px;
+    height: 60px;
     border-radius: 10px;
     transition: ease 0.3s;
     padding: 5%;
@@ -231,17 +193,10 @@
     filter: brightness(1);
   }
 
-.button-back {
-  width: 60px;
-  height: 60px;
-  cursor: pointer;
-  position: absolute;
-  margin-left: 7%;
-}
-
 .container-game-state {
-  z-index: 10;
   display: flex;
+  position: absolute;
+  z-index: 10;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -251,7 +206,7 @@
   height: 450px;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.925);
-  margin-top: 8%;
+  margin-top: -10%
 }
 
 .board-game-row {

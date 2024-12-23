@@ -7,7 +7,7 @@
         <tbody>
           <tr v-for="row in 3" :key="row">
             <td v-for="col in 3" :key="col" @click="setPlay((row - 1) * 3 + (col - 1))" 
-              class="cell w-24 h-24 text-7xl font-bold text-purple-950 hover:bg-gray-hover border-8 border-green text-center cursor-pointer">
+              class="cell w-24 h-24 text-7xl font-bold text-purple-950 hover:bg-gray-hover border-8 border-green-capim text-center cursor-pointer">
             </td>
           </tr>
         </tbody>
@@ -19,7 +19,7 @@
       </p>
       <div class="flex flex-row gap-8">
         <button class="bg-purple-950 text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-purple-500" @click="resetGame()">Reiniciar</button>
-        <button class="bg-green text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-green-800" @click="newGame()">Novo Jogo</button>
+        <button class="bg-green-capim text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-green-800" @click="newGame()">Novo Jogo</button>
       </div>
     </div>
   </div>
@@ -58,9 +58,19 @@
         await axiosInstance.delete(`http://localhost:3000/games/${props.id}`, {});
       }
       router.push({ name: 'GameBoard', params: { id: gameId } });
+      resetBoard();
     } catch (error) {
       console.error('Erro ao criar novo jogo:', error);
     }
+  }
+
+  const resetBoard = async () => {
+    const cells = document.getElementsByClassName('cell');
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].textContent = '';
+    }
+    winner.value = '';
+    player.value = 0;
   }
 
   const resetGame = async () => {
@@ -68,12 +78,7 @@
       const response = await axiosInstance.patch(`http://localhost:3000/games/${props.id}/reset`, {});
       console.log('Jogo reiniciado com sucesso:', response.data);
 
-      const cells = document.getElementsByClassName('cell');
-      for (let i = 0; i < cells.length; i++) {
-        cells[i].textContent = '';
-      }
-      winner.value = '';
-      player.value = 0;
+      resetBoard();
     } catch (error) {
       console.error('Erro ao reiniciar o jogo:', error);
     }

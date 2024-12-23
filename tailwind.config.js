@@ -13,7 +13,8 @@ module.exports = {
       colors: {
         'white-opacity': '#ffffffcc',
         'gray-hover': '#ddd',
-        'green': '#38b71b',
+        'green-capim': '#38b71b',
+        'black-opacity': '#0000008f',
       },
     }
   }
