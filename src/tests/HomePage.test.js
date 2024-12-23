@@ -17,6 +17,7 @@ vi.mock('vue-router', () => ({
   useRouter: vi.fn(),
 }));
 
+
 describe('HomePage Component', () => {
   it('deve chamar axios.post ao clicar no botão de iniciar o jogo', async () => {
     const pushMock = vi.fn(); // Simula o método push do roteador

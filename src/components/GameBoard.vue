@@ -1,12 +1,12 @@
 <template>
-  <img class="absolute top-0 left-0 -z-10 w-screen h-screen" src="../assets/img/background.png">
+  <img data-test="background-image" class="absolute top-0 left-0 -z-10 w-screen h-screen" src="../assets/img/background.png">
   <div class="absolute w-full h-full flex justify-center items-center">
-    <img class="absolute cursor-pointer w-12 h-12 top-44 left-96" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
+    <img data-test="button-back" class="absolute cursor-pointer w-12 h-12 top-44 left-96" src="../assets/img/button2.png" alt="Imagem Clicável" @click="comeback()"/>
     <div class="flex flex-col justify-center items-center w-5/12 h-4/5 gap-3 rounded-2xl bg-white/90">
       <table class="border-collapse w-3/4 h-3/4 white-opacity">
         <tbody>
           <tr v-for="row in 3" :key="row">
-            <td v-for="col in 3" :key="col" @click="setPlay((row - 1) * 3 + (col - 1))" 
+            <td data-test="cell" v-for="col in 3" :key="col" @click="setPlay((row - 1) * 3 + (col - 1))" 
               class="cell w-24 h-24 text-7xl font-bold text-purple-950 hover:bg-gray-hover border-8 border-green-capim text-center cursor-pointer">
             </td>
           </tr>
@@ -18,8 +18,8 @@
         <span v-else>Vez do jogador {{ player === 0 ? 'X' : 'O' }}</span>
       </p>
       <div class="flex flex-row gap-8">
-        <button class="bg-purple-950 text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-purple-500" @click="resetGame()">Reiniciar</button>
-        <button class="bg-green-capim text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-green-800" @click="newGame()">Novo Jogo</button>
+        <button data-test="reset-button" class="bg-purple-950 text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-purple-500" @click="resetGame()">Reiniciar</button>
+        <button data-test="new-game-button" class="bg-green-capim text-white font-semibold text-2xl rounded-2xl w-44 h-14 hover:bg-green-800" @click="newGame()">Novo Jogo</button>
       </div>
     </div>
   </div>
@@ -85,15 +85,15 @@
   }
 
   async function comeback() {
+    const id = props.id;
     try {
-      const response = await axiosInstance.get(`http://localhost:3000/games/${props.id}`, {});
-      if (response.data.winner === "") {
-        await axiosInstance.delete(`http://localhost:3000/games/${props.id}`, {});
+      router.push({ name: 'HomePage' });
+      if (winner.value === "") {
+        await axiosInstance.delete(`http://localhost:3000/games/${id}`, {});
       }
     } catch (error) {
       console.error('Erro ao voltar para a página inicial:', error);
     }
-    router.push({ name: 'HomePage' });
   }
 
   async function setPlay(index){
