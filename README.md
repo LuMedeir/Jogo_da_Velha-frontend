@@ -36,6 +36,12 @@ Como Rodar o Projeto
    ```
 5. Acesse o frontend: Abra o navegador e vá para [http://localhost:8080](http://localhost:8080);
 
+## Como rodar os testes
+  1. Digite o seguinte comando:
+     ```bash
+     npm run test
+     ```
+
 ## Tecnologias Utilizadas
  - Vue.js 3: Framework JavaScript para o frontend.
  - Vue Router: Gerenciamento de rotas.
