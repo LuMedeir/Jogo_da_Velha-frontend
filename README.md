@@ -15,7 +15,7 @@ Antes de executar o frontend, certifique-se de ter o seguinte instalado:
 
  - Node.js (versão 18.19.1 ou superior)
  - npm
- - O backend da aplicação, certifique-se de seguir o passo a passo do [link](https://github.com/LuMedeir/Jogo_da_Velha-backend) e ter a aplicação rodando.
+ - O backend da aplicação, certifique-se de seguir o passo a passo do [link](https://github.com/LuMedeir/Jogo_da_Velha-backend) e ter o servidor rodando.
 
 
 ## Como Jogar
@@ -39,8 +39,9 @@ Como Rodar o Projeto
 ## Tecnologias Utilizadas
  - Vue.js 3: Framework JavaScript para o frontend.
  - Vue Router: Gerenciamento de rotas.
- -Axios: Para consumo de API REST.
- - CSS: Estilização customizada.
+ - Axios: Para consumo de API REST.
+ - Tailwind CSS: Estilização customizada.
+ - Vitest: Biblioteca para testes unitários.
 
 ## Imagens do Jogo: 
 <p align="center">
